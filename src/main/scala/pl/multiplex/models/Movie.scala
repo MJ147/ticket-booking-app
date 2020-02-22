@@ -2,27 +2,21 @@ package pl.multiplex.models
 
 import java.time.Duration
 
-import com.fasterxml.jackson.annotation.JsonBackReference
-import javax.persistence.{Entity, EnumType, Enumerated, GeneratedValue, GenerationType, Id, MapsId, OneToOne}
-import lombok.ToString
+import javax.persistence.{Entity, EnumType, Enumerated, GeneratedValue, GenerationType, Id}
 
 import scala.beans.BeanProperty
 
 @Entity
-class Movie(@BeanProperty
-            @Enumerated(EnumType.STRING)
-            val category: MovieCategory.Value,
-            @BeanProperty
-            val duration: Duration) {
+class Movie extends Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @BeanProperty
   var id: Long = _
-  @OneToOne
-  @MapsId
-  @JsonBackReference
-  @ToString.Exclude
   @BeanProperty
-  var screening: Screening = _
-
+  var title: String = _
+  @BeanProperty
+  @Enumerated(EnumType.STRING)
+  var category: MovieCategory = _
+  @BeanProperty
+  var duration: Duration = _
 }

@@ -2,31 +2,34 @@ package pl.multiplex.models
 
 import java.time.{LocalDate, LocalTime}
 
-import com.fasterxml.jackson.annotation.JsonManagedReference
-import javax.persistence.{Entity, GeneratedValue, GenerationType, Id, OneToMany, OneToOne}
+import com.fasterxml.jackson.annotation.{JsonBackReference, JsonManagedReference}
+import javax.persistence._
+import lombok.ToString
 
 import scala.beans.BeanProperty
-import scala.collection.mutable.ListBuffer
 
 @Entity
-class Screening(@BeanProperty
-                val date: LocalDate,
-                @BeanProperty
-                val startTime: LocalTime) {
+class Screening extends Serializable{
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @BeanProperty
   var id: Long = _
-  @OneToMany(mappedBy = "screening")
-  @JsonManagedReference
   @BeanProperty
-  var tickets: ListBuffer[Ticket] = new ListBuffer[Ticket]()
-  @OneToOne(mappedBy = "screening")
-  @JsonManagedReference
+  var date: LocalDate = _
+  @BeanProperty
+  var startTime: LocalTime = _
+  @OneToMany(mappedBy = "screening")
+  @JsonBackReference
+  @BeanProperty
+  var tickets: java.util.List[Ticket] = new java.util.ArrayList[Ticket]()
+  @OneToOne
+  @JoinColumn(name = "movie_id", referencedColumnName = "id")
   @BeanProperty
   var movie: Movie = _
-  @OneToOne(mappedBy = "screening")
+  @ManyToOne
+  @JoinColumn(name = "room_id")
   @JsonManagedReference
+  @ToString.Exclude
   @BeanProperty
   var room: Room = _
 }

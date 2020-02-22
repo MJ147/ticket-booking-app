@@ -1,43 +1,50 @@
 package pl.multiplex.models
 
 import com.fasterxml.jackson.annotation.JsonBackReference
-import javax.persistence.{Entity, GeneratedValue, GenerationType, Id, MapsId, OneToOne}
-import lombok.{Data, Getter, ToString}
+import javax.persistence._
 
 import scala.beans.BeanProperty
 import scala.collection.mutable.ListBuffer
 
-@Data
 @Entity
-class Room(@BeanProperty
-           val rowsNumber: Int,
-           @BeanProperty
-           val seatsNumberInRow: Int) {
+class Room extends Serializable{
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @BeanProperty
   var id: Long = _
   @BeanProperty
-  val seats: List[Seat] = createSeats()
-  @OneToOne
-  @MapsId
-  @JsonBackReference
-  @ToString.Exclude
+  var rowsNumber: Int = 0
   @BeanProperty
-  var screening: Screening = _
+  var seatsNumberInRow: Int = 0
+  @OneToMany(mappedBy = "room")
+  @JsonBackReference
+  @BeanProperty
+  var screening: java.util.List[Screening] = new java.util.ArrayList[Screening]()
 
-  def createSeats(): List[Seat] = {
+  private var seats: ListBuffer[Seat] = null
+
+  def getSeats(): ListBuffer[Seat] = {
+    (seats) match {
+      case (s) if s == null =>
+        createSeats()
+        seats
+      case _ =>
+        seats
+    }
+  }
+
+  def createSeats(): Unit = {
     (rowsNumber, seatsNumberInRow) match {
       case (rowsNumber: Int, seatsNumberInRow: Int) if rowsNumber > 0 && seatsNumberInRow > 0 =>
-        var temporaryListOfSeats = new ListBuffer[Seat]()
+        val temporaryListOfSeats = new ListBuffer[Seat]()
         for (i <- 1 to rowsNumber;
              j <- 1 to seatsNumberInRow) {
-          var seat: Seat = new Seat(i, j)
+          val seat: Seat = new Seat(i, j)
           temporaryListOfSeats.addOne(seat)
         }
-          temporaryListOfSeats.toList
+          this.seats = temporaryListOfSeats
       case _ =>
-        throw new IllegalArgumentException("Wartość rzędu lub miejsca nie może być zerowa.")
+        throw new IllegalArgumentException("Wartość rzędu lub miejsca musi być większa od zera.")
     }
   }
 }
