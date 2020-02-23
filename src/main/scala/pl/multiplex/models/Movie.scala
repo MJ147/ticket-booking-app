@@ -1,8 +1,6 @@
 package pl.multiplex.models
 
-import java.time.Duration
-
-import javax.persistence.{Entity, EnumType, Enumerated, GeneratedValue, GenerationType, Id}
+import javax.persistence._
 
 import scala.beans.BeanProperty
 
@@ -18,5 +16,5 @@ class Movie extends Serializable {
   @Enumerated(EnumType.STRING)
   var category: MovieCategory = _
   @BeanProperty
-  var duration: Duration = _
+  var duration: Int = _
 }

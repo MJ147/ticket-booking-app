@@ -1,13 +1,13 @@
 package pl.multiplex.models
 
-import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.{JsonBackReference, JsonIgnore}
 import javax.persistence._
 
 import scala.beans.BeanProperty
 import scala.collection.mutable.ListBuffer
 
 @Entity
-class Room extends Serializable{
+class Room extends Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @BeanProperty
@@ -20,7 +20,7 @@ class Room extends Serializable{
   @JsonBackReference
   @BeanProperty
   var screening: java.util.List[Screening] = new java.util.ArrayList[Screening]()
-
+  @JsonIgnore
   private var seats: ListBuffer[Seat] = null
 
   def getSeats(): ListBuffer[Seat] = {
@@ -42,7 +42,7 @@ class Room extends Serializable{
           val seat: Seat = new Seat(i, j)
           temporaryListOfSeats.addOne(seat)
         }
-          this.seats = temporaryListOfSeats
+        this.seats = temporaryListOfSeats
       case _ =>
         throw new IllegalArgumentException("Wartość rzędu lub miejsca musi być większa od zera.")
     }
