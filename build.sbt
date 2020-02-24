@@ -14,7 +14,8 @@ libraryDependencies ++= {
       "org.projectlombok" % "lombok" % "1.18.10" % "provided",
       "org.scalatest" %% "scalatest" % "3.1.1" % "test",
       "org.postgresql" % "postgresql" % "42.2.10",
-      "org.hibernate" % "hibernate-core" % "5.4.12.Final"
+      "org.hibernate" % "hibernate-core" % "5.4.12.Final",
+      "net.liftweb" %% "lift-json" % "3.4.1"
   )
 }
 
