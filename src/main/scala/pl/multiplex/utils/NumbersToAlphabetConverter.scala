@@ -1,6 +1,6 @@
 package pl.multiplex.utils
 
-class NumbersToAlphabetConverter () {
+class NumbersToAlphabetConverter extends Serializable() {
 
   val alphabet: String = "ABCDEFGHIJKLMNOPRSTUWYZ"
 

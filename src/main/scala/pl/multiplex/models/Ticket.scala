@@ -1,13 +1,13 @@
 package pl.multiplex.models
 
-import com.fasterxml.jackson.annotation.{JsonBackReference, JsonManagedReference}
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import javax.persistence._
 import lombok.ToString
 
 import scala.beans.BeanProperty
 
 @Entity
-class Ticket extends Serializable{
+class Ticket extends Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @BeanProperty
@@ -27,5 +27,17 @@ class Ticket extends Serializable{
   @BeanProperty
   @Enumerated(EnumType.STRING)
   var ticketType: TicketType = _
+
+  private var seatName: String = _
+
+  def setSeatName(seatName: String): Unit = {
+    this.seatName = seatName
+    screening.getSeats().filter(s => s.toString.equals(seatName)).map(s => s.setIsFree(false))
+  }
+
+  def getSeatName(): String = {
+    seatName
+  }
+
 
 }

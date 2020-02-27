@@ -10,4 +10,5 @@ trait ScreeningService {
   def findAllByDateAndStartTimeBetween(date: LocalDate, startTime: LocalTime): java.util.List[Array[Any]]
 
   def findFirstByTitleAndDateAndStartTime(title: String, date: LocalDate, time: LocalTime): String
+
 }

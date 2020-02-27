@@ -31,10 +31,10 @@ INSERT INTO consumer (first_name, second_name) VALUES ('Stefan', 'Kutrzeba'),
                                                       ('Alicja', 'Doroszweska'),
                                                       ('Józef', 'Perecki');
 
-INSERT INTO ticket (consumer, screening, ticket_type) VALUES (1,1,'CHILD'),
-                                                             (1,1,'CHILD'),
-                                                             (2,3,'ADULT'),
-                                                             (3,2,'ADULT'),
-                                                             (3,2,'STUDENT'),
-                                                             (3,2,'STUDENT');
+INSERT INTO ticket (consumer, screening, ticket_type, seat_name) VALUES (1,1,'CHILD','B1'),
+                                                             (1,1,'CHILD','B2'),
+                                                             (2,3,'ADULT','B3'),
+                                                             (3,7,'ADULT','B5'),
+                                                             (3,7,'STUDENT','B6'),
+                                                             (3,7,'STUDENT','B7');
 

@@ -2,16 +2,20 @@ package pl.multiplex.models;
 
 public enum TicketType {
 
-  ADULT(25, "zł"),
-  STUDENT(18, "zł"),
+  ADULT(25d, "zł"),
+  STUDENT(18d, "zł"),
   CHILD(12.5, "zł");
 
-  private double price;
+  private Double price;
   private String currency;
 
-  TicketType(double price, String currency) {
+  TicketType(Double price, String currency) {
     this.price = price;
     this.currency = currency;
+  }
+
+  public Double getPrice() {
+    return price;
   }
 
 

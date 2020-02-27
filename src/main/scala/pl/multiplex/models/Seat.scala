@@ -7,7 +7,8 @@ class Seat(
             val numberInRow: Int,
             private var isFree: Boolean = true,
             private var converter: NumbersToAlphabetConverter = new NumbersToAlphabetConverter
-          ) {
+          ) extends Serializable {
+
 
   def setIsFree(isFree: Boolean): Unit = {
     this.isFree = isFree
