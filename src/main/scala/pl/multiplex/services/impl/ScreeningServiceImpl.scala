@@ -15,7 +15,7 @@ class ScreeningServiceImpl(val screeningDao: ScreeningDao) extends ScreeningServ
   override def findAllByDateAndStartTimeBetween(date: LocalDate, startTime: LocalTime): java.util.List[Array[Any]] = {
     val time1: LocalTime = startTime.minusHours(1)
     val time2: LocalTime = startTime.plusHours(1)
-    screeningDao.findAllByDateAndStartTimeBetween(date, time1, time2)
+    screeningDao.findAllByDateAndStartTimeBetweenAndSortByTitleAndStartTime(date, time1, time2)
   }
 
   override def findFirstByTitleAndDateAndStartTime(title: String, date: LocalDate, time: LocalTime): String = {
