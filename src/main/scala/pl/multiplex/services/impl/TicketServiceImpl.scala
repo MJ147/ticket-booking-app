@@ -3,8 +3,8 @@ package pl.multiplex.services.impl
 import java.time.{LocalDate, LocalDateTime, LocalTime}
 
 import org.springframework.stereotype.Service
-import pl.multiplex.WrongFirstNameOrSecondNameException
 import pl.multiplex.dao.{ScreeningDao, TicketDao}
+import pl.multiplex.exceptions.{InvalidFirstNameOrSecondNameException, InvalidSeatNameException}
 import pl.multiplex.models.{Consumer, Screening, Ticket, TicketType}
 import pl.multiplex.services.{ConsumerService, TicketService}
 
@@ -14,6 +14,10 @@ class TicketServiceImpl(val ticketDao: TicketDao, val screeningDao: ScreeningDao
 
   override def saveAll(title: String, date: LocalDate, time: LocalTime, firstName: String, secondName: String,
                        seatNames: java.util.List[String], ticketTypes: java.util.List[String]): String = {
+
+    if (seatNames.size() < 1) {
+      return "Należy wybrać przynajmniej jedno miejsce"
+    }
 
     if (!isLeftAtLeast15MinutesToScreening(date, time)) {
       return "Nie można zarezerwować biletu. Seans rozpoczyna się za mniej niż 15 minut."
@@ -28,7 +32,7 @@ class TicketServiceImpl(val ticketDao: TicketDao, val screeningDao: ScreeningDao
       try {
         consumer = consumerService.save(firstName, secondName)
       } catch {
-        case e: WrongFirstNameOrSecondNameException =>
+        case e: InvalidFirstNameOrSecondNameException =>
           return e.getMessage
       }
 
@@ -37,7 +41,12 @@ class TicketServiceImpl(val ticketDao: TicketDao, val screeningDao: ScreeningDao
         ticket.setScreening(screening)
         ticket.setTicketType(TicketType.valueOf(ticketTypes.get(i)))
         ticket.setConsumer(consumer)
-        ticket.setSeatName(seatNames.get(i))
+        try {
+          ticket.setSeatName(seatNames.get(i))
+        } catch {
+          case e: InvalidSeatNameException =>
+            return e.getMessage
+        }
         ticketList.add(ticket)
       }
       ticketDao.saveAll(ticketList)

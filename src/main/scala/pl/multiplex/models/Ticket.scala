@@ -3,6 +3,7 @@ package pl.multiplex.models
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import javax.persistence._
 import lombok.ToString
+import pl.multiplex.exceptions.InvalidSeatNameException
 
 import scala.beans.BeanProperty
 
@@ -26,17 +27,23 @@ class Ticket extends Serializable {
   var screening: Screening = _
   @BeanProperty
   @Enumerated(EnumType.STRING)
-  var ticketType: TicketType = _
+  var ticketType: TicketType = TicketType.ADULT
 
-  private var seatName: String = _
+  private var seatNumber: String = _
 
+  @throws(classOf[InvalidSeatNameException])
   def setSeatName(seatName: String): Unit = {
-    this.seatName = seatName
-    screening.getSeats().filter(s => s.toString.equals(seatName)).map(s => s.setIsFree(false))
+    this.seatNumber = seatName
+    if (!screening.getSeats().filter(s => s.toString.equals(seatName)).isEmpty && screening.getSeats().filter(s => s.toString.equals(seatName))(0).getIsFree() != false) {
+      screening.getSeats().filter(s => s.toString.equals(seatName)).map(s => s.setIsFree(false))
+    } else {
+      throw InvalidSeatNameException()
+    }
+
   }
 
   def getSeatName(): String = {
-    seatName
+    seatNumber
   }
 
 
