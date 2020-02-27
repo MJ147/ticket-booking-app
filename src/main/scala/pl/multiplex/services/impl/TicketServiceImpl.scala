@@ -3,15 +3,16 @@ package pl.multiplex.services.impl
 import java.time.{LocalDate, LocalDateTime, LocalTime}
 
 import org.springframework.stereotype.Service
+import pl.multiplex.WrongFirstNameOrSecondNameException
 import pl.multiplex.dao.{ScreeningDao, TicketDao}
 import pl.multiplex.models.{Consumer, Screening, Ticket, TicketType}
-import pl.multiplex.services.TicketService
+import pl.multiplex.services.{ConsumerService, TicketService}
 
 
 @Service
-class TicketServiceImpl(val ticketDao: TicketDao, val screeningDao: ScreeningDao) extends TicketService {
+class TicketServiceImpl(val ticketDao: TicketDao, val screeningDao: ScreeningDao, val consumerService: ConsumerService) extends TicketService {
 
-  override def saveAll(title: String, date: LocalDate, time: LocalTime, consumer: Consumer,
+  override def saveAll(title: String, date: LocalDate, time: LocalTime, firstName: String, secondName: String,
                        seatNames: java.util.List[String], ticketTypes: java.util.List[String]): String = {
 
     if (!isLeftAtLeast15MinutesToScreening(date, time)) {
@@ -23,6 +24,14 @@ class TicketServiceImpl(val ticketDao: TicketDao, val screeningDao: ScreeningDao
       if (screening == null) {
         return "Nie znaleziono seansu."
       }
+      var consumer: Consumer = null
+      try {
+        consumer = consumerService.save(firstName, secondName)
+      } catch {
+        case e: WrongFirstNameOrSecondNameException =>
+          return e.getMessage
+      }
+
       for (i <- 0 until seatNames.size()) {
         val ticket = new Ticket()
         ticket.setScreening(screening)

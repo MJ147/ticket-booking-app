@@ -24,6 +24,6 @@ class ClientController(val screeningService: ScreeningService, val consumerServi
   def createTickets(@RequestParam title: String, @RequestParam date: String, @RequestParam time: String, @RequestParam firstName: String, @RequestParam secondName: String,
                     @PathVariable seatNames: java.util.List[String], @PathVariable ticketTypes: java.util.List[String]): ResponseEntity[String] = {
 
-    ResponseEntity.ok().body(ticketService.saveAll(title, LocalDate.parse(date), LocalTime.parse(time), consumerService.save(firstName, secondName), seatNames, ticketTypes))
+    ResponseEntity.ok().body(ticketService.saveAll(title, LocalDate.parse(date), LocalTime.parse(time), firstName, secondName, seatNames, ticketTypes))
   }
 }
