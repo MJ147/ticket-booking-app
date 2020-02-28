@@ -20,10 +20,10 @@ class ClientController(val screeningService: ScreeningService, val consumerServi
     ResponseEntity.ok.body(screeningService.findFirstByTitleAndDateAndStartTime(title, LocalDate.parse(date), LocalTime.parse(time)))
   }
 
-  @PostMapping(Array("/create-tickets/{seatNames}/{ticketTypes}"))
+  @PostMapping(Array("/create-tickets/{seatNumbers}/{ticketTypes}"))
   def createTickets(@RequestParam title: String, @RequestParam date: String, @RequestParam time: String, @RequestParam firstName: String, @RequestParam secondName: String,
-                    @PathVariable seatNames: java.util.List[String], @PathVariable ticketTypes: java.util.List[String]): ResponseEntity[String] = {
+                    @PathVariable seatNumbers: java.util.List[String], @PathVariable ticketTypes: java.util.List[String]): ResponseEntity[String] = {
 
-    ResponseEntity.ok().body(ticketService.saveAll(title, LocalDate.parse(date), LocalTime.parse(time), firstName, secondName, seatNames, ticketTypes))
+    ResponseEntity.ok().body(ticketService.saveAll(title, LocalDate.parse(date), LocalTime.parse(time), firstName, secondName, seatNumbers, ticketTypes))
   }
 }
