@@ -1,7 +1,6 @@
 package pl.multiplex.services.impl
 
 import java.time.{LocalDate, LocalTime}
-import java.util.Optional
 
 import org.springframework.stereotype.Service
 import pl.multiplex.dao.ScreeningDao
@@ -22,7 +21,7 @@ class ScreeningServiceImpl(val screeningDao: ScreeningDao) extends ScreeningServ
     try {
       val screening: Screening = screeningDao.findFirstByTitleAndDateAndStartTime(title, date, time)
       // Create list without taken seats
-      val freeSeatsList = screening.getSeats().to(LazyList).filter(s => s.getIsFree())
+      val freeSeatsList = screening.getSeats().toStream.filter(s => s.getIsFree())
       s"Tytuł: ${screening.getMovie.getTitle},\nGodzina: ${screening.getStartTime},\nNumer sali: ${screening.getRoom.getId},\nIlość wolnych miejsc: ${freeSeatsList.size},\n" +
         s"Dostępne miejsca: ${freeSeatsList.toString.substring(8)}"
     } catch {

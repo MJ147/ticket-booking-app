@@ -34,6 +34,7 @@ class Screening extends Serializable{
   @BeanProperty
   var room: Room = _
   @JsonIgnore
+  @Lob
   private var seats: ListBuffer[Seat] = null
 
   def getSeats(): ListBuffer[Seat] = {
@@ -54,7 +55,7 @@ class Screening extends Serializable{
              j <- 1 to seatsNumberInRow) {
           val seat: Seat = new Seat(i, j)
 
-          temporaryListOfSeats.addOne(seat)
+          temporaryListOfSeats+=seat
         }
         this.seats = temporaryListOfSeats
       case _ =>

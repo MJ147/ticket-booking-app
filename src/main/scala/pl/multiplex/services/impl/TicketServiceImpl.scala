@@ -49,6 +49,7 @@ class TicketServiceImpl(val ticketDao: TicketDao, val screeningDao: ScreeningDao
     ticketDao.saveAll(ticketList)
     val price: Double = ticketList.stream().mapToDouble(t => t.getTicketType.getPrice).sum()
     val bookingExpirationTime: LocalTime = time.minusMinutes(15)
+
     s"Liczba biletów: ${ticketList.size}, \nDo zapłaty: $price,\nRezerwacja przepada o godzinie: $bookingExpirationTime"
   }
 

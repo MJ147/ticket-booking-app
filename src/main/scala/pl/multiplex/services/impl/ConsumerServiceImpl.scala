@@ -27,7 +27,7 @@ class ConsumerServiceImpl(val consumerDao: ConsumerDao) extends ConsumerService 
   }
 
   def isTwoPartSecondNameSeparateDash(text: String): Boolean = {
-    text.matches("[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]{2,}(_[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]{2,})?")
+    text.matches("[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]{2,}(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]{2,})?")
   }
 
 }
