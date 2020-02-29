@@ -60,7 +60,7 @@ class TicketServiceImpl(val ticketDao: TicketDao, val screeningDao: ScreeningDao
       ticket.setScreening(screening)
       ticket.setTicketType(TicketType.valueOf(ticketTypes.get(i)))
       ticket.setConsumer(consumer)
-      ticket.setSeatName(seatNumbers.get(i))
+      ticket.setSeatNumber(seatNumbers.get(i))
       ticketList.add(ticket)
     }
     ticketList

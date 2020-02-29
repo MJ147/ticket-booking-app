@@ -28,14 +28,14 @@ class Ticket extends Serializable {
   @Enumerated(EnumType.STRING)
   var ticketType: TicketType = TicketType.ADULT
 
-  private var seatNumber: String = _
+  var seatNumber: String = _
 
-  def setSeatName(seatNumber: String): Unit = {
+  def setSeatNumber(seatNumber: String): Unit = {
     this.seatNumber = seatNumber
     screening.getSeats().filter(s => s.toString.equals(seatNumber)).map(s => s.setIsFree(false))
   }
 
-  def getSeatName(): String = {
+  def getSeatNumber(): String = {
     seatNumber
   }
 
