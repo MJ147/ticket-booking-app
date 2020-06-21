@@ -1,4 +1,4 @@
-# ticket-booking-app
+# Ticket Booking App
 The seat reservation system for a multiplex.
 
 ## Table of contents
